@@ -4,7 +4,7 @@
         "module": "none",
         "target": "es2015",
         "lib":["es2017", "dom"],
-        "outDir": "js/1.0.190129",
+        "outDir": "js/1.0.190220",
         "noImplicitAny": false,
         "sourceMap": true,
         "removeComments": true,
