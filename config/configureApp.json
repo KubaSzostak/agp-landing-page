@@ -1,0 +1,16 @@
+{
+    "configurationSettings": [
+        {
+            "category": "Configuration",
+            "fields": [
+                {
+                    "type": "paragraph",
+                    "value": "<h2>Configuration</h2>"
+                },
+                {
+                    "type": "group"
+                }
+            ]
+        }
+    ]
+}

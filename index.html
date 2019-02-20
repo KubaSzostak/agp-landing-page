@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Kuba Szostak">
+  <title>ArcGIS Portal Landing Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .cover {
+      object-fit: cover;
+      width: 50px;
+      height: 100px;
+    }
+
+    footer a:hover {
+      text-decoration: none;
+    }
+
+    footer a {
+      color: unset;
+    }
+
+    .initial-display {
+      display: none2;
+    }
+
+    .card>.row>a {
+      box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+      object-fit: cover;
+      min-height: 100%;
+      max-height: 13em;
+      width: 100%;
+
+    }
+
+    .card .card-body {
+      max-height: 13em;
+      padding-right: 1.5em;
+      padding-left: 1.5em;
+    }
+
+    .navbar-brand {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-wrap: break-word;
+    }
+
+    .card-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-wrap: break-word;
+    }
+
+    .card-subtitle {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-wrap: break-word;
+    }
+
+    .card-body>a,
+    .card-body>a:hover {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .card-links {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-wrap: break-word;
+    }
+
+
+
+    .card-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      word-wrap: break-word;
+      line-height: 1.5em;
+      max-height: 4.5em;
+      /* 3 x line-height */
+
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .app-element-display {
+      display: none;
+      /*  */
+    }
+
+    .app-element-visibility {
+      visibility: hidden;
+      /*  */
+    }
+  </style>
+
+</head>
+
+<body class="d-flex flex-column">
+
+  <!--  Splash screen  -->
+  <div id="splashScreenBackdrop" class="modal-backdrop fade show"></div>
+
+  <div id="splashScreenModal" class="modal fade show" tabindex="-1" role="dialog" style="display: block"
+    aria-labelledby="modalTitle" aria-modal="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="display: none">
+          <h5 class="modal-title" id="modalTitle">Modal title</h5>
+        </div>
+        <div class="modal-body">
+          <div class="progress m-4">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--  Navbar  -->
+  <nav class="navbar navbar-expand navbar-light bg-light shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" id="navbarTitleContainer" href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="app-element-visibility">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        &nbsp;
+        <span class=" app-element-visibility">ArcGIS Portal Landing Page</span>
+      </a>
+    </div>
+  </nav>
+
+  <!--  Group Heading  -->
+  <div id="groupHeadingContainer" class="container px-3 py-3 pt-md-5 pb-md-4 mx-auto">
+    <h1 class="display-4 text-center app-element-display">ArcGIS Portal Landing Page</h1>
+    <p class="lead text-center app-element-display">Lorem ipsum dolor sit amet consectetuer adipiscing elit.</p>
+    <p class=" app-element-display">
+      Lorem ipsum dolor sit amet, consectetuer
+      adipiscing elit. Aenean commodo ligula eget dolor.
+      Aenean massa <strong>strong</strong>. Cum sociis
+      natoque penatibus et magnis dis parturient montes,
+      nascetur ridiculus mus. Donec quam felis, ultricies
+      nec, pellentesque eu, pretium quis, sem. Nulla consequat
+      massa quis enim. Donec pede justo, fringilla vel,
+      aliquet nec, vulputate eget, arcu. In <em>em</em>
+      enim justo, rhoncus ut, imperdiet a, venenatis vitae,
+      justo. Nullam <a class="external ext" href="#">link</a>
+      dictum felis eu pede mollis pretium.
+    </p>
+  </div>
+
+
+
+
+
+  <div id="groupItemsContainer" class="container">
+
+    <div class="card mb-4 shadow app-element-display">
+      <div class="row  no-gutters">
+        <a href="#" class="col-sm-4 ">
+          <!--<img src="img/item.png" alt="Generic placeholder image">-->
+        </a>
+        <div class="col-sm-8 card-body  d-flex flex-column">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+          </p>
+          <div class="mt-auto">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="card mb-4 shadow app-element-display">
+      <div class="row  no-gutters">
+        <a href="#" class="col-sm-4 ">
+          <!-- <img src="img/item.png" alt="Generic placeholder image" />-->
+        </a>
+        <div class="col-sm-8 card-body  d-flex flex-column">
+          <a href="#">
+            <h5 class="card-title">Card title Card title Card title Card title Card title Card title Card title Card
+              title Card title Card title </h5>
+          </a>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle Card subtitle Card subtitle Card subtitle Card
+            subtitle Card subtitle Card subtitle Card subtitle Card subtitle Card subtitle </h6>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+          </p>
+          <div class="card-links mt-auto">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- loadMoreItemsButton -->
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <button id="loadMoreItemsButton" type="button" class="btn btn-light border px-5" style="display:none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-down">
+            <polyline points="7 13 12 18 17 13"></polyline>
+            <polyline points="7 6 12 11 17 6"></polyline>
+          </svg>
+        </button>
+        
+        <div id="loadMoreItemsProgress" class="progress mt-1 mx-auto" style="display:none; width: 120px; height: 3em;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+  <p>
+    &nbsp;
+  </p>
+
+  <div class="container  mt-auto">
+
+    <footer class="pt-3 border-top">
+      <div class="row">
+        <div id="portalDeltailsContainer" class="col-md pb-3">
+          <!-- <img src="img/map.png" width="24" height="24" class="align-top mr-2 mb-2 app-element-visibility">
+          <a href="#" class="app-element-visibility">My Portal</a>-->
+        </div>
+        <div id="groupDetailsContainer" class="col-md pb-3">
+          <!-- <img src="img/egb.png" width="24" height="24" class="align-top mr-2 mb-2 rounded-circle  app-element-visibility"
+            alt="">
+          <a href="#" class="app-element-visibility">ArcGIS Portal Landing Page</a>-->
+        </div>
+        <div class="col-md pb-3">
+          <a target="_blank" href="https://github.com/KubaSzostak/LandingPage" title="ArcGIS Portal Landing Page" class="float-md-right font-weight-light"><svg xmlns="http://www.w3.org/2000/svg" 
+            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" 
+            stroke-linecap="round" stroke-linejoin="round" class="feather feather-feather">
+              <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path>
+              <line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line>
+            </svg>
+            <span class="d-md-none">ArcGIS Portal Landing Page</span></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+
+
+  <!-- https://github.com/danklammer/bytesize-icons -->
+  <script src="config.js"></script>
+  <script src="js/1.0.190129/app.js"></script>
+</body>
+
+</html>

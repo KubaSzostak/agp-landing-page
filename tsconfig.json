@@ -1,0 +1,16 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "module": "none",
+        "target": "es2015",
+        "lib":["es2017", "dom"],
+        "outDir": "js/1.0.190129",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "removeComments": true,
+        "declaration": true
+    },
+    "include": [
+        "ts/**/*" 
+    ]
+}
