@@ -10,7 +10,7 @@ or Members [Landing Page](https://github.com/kubaszostak/agp-landing-page) focus
 This application was inspiredy by [Minimal Gallery](https://github.com/Esri/minimal-gallery) from Esri.
 I found Minimal Gallery code so overcomplicated that it was easier for me creating new application
 rather than adding two text elements (group snippet and group description) to existing
-Minimal Gallery code. I ended with one HTML(https://github.com/kubaszostak/agp-landing-page/blob/master/index.html)
+Minimal Gallery code. I ended with one [HTML](https://github.com/kubaszostak/agp-landing-page/blob/master/index.html)
 file and one [TypeScript](https://github.com/kubaszostak/agp-landing-page/blob/master/ts/app.ts)/JavaScript
 file + reference to bootstrap.css.
 
