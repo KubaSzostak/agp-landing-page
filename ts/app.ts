@@ -1,198 +1,11 @@
-interface PortalLandingPageConfig {
-    portalUrl: string;
-    group: string;
-}
 
-declare var arcgisPortalLandingPageConfig: PortalLandingPageConfig;
-if (!arcgisPortalLandingPageConfig) {
-    arcgisPortalLandingPageConfig = {} as any;
-} 
-
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get("group")) {
-    arcgisPortalLandingPageConfig.group = urlParams.get("group");
-}
-if (urlParams.get("portalUrl")) {
-    arcgisPortalLandingPageConfig.portalUrl = urlParams.get("portalUrl");
-}
-
-// Initialize config with default values if needed
-
-let arcgisPortalList: PortalLandingPageConfig[] = [
-    { portalUrl: "https://www.arcgis.com",  group: "908dd46e749d4565a17d2b646ace7b1a"  },
-    { portalUrl: "http://www.arcgis.com",  group: "908dd46e749d4565a17d2b646ace7b1a"  }, // http
-    { portalUrl: "https://mapy.umgdy.gov.pl/pzp",  group: "bec4867931504e4897aa927629c5e03f"  },
-    { portalUrl: "https://mapy.umgdy.gov.pl/portal", group: "9227744bd89342429da120fb3bba224a" }
-];
-
-if (!arcgisPortalLandingPageConfig.portalUrl){
-    for (const portal of arcgisPortalList) {
-        if (window.location.href.indexOf(portal.portalUrl) === 0) {
-            arcgisPortalLandingPageConfig.portalUrl = portal.portalUrl;
-        }        
-    }
-    if (!arcgisPortalLandingPageConfig.portalUrl){
-        arcgisPortalLandingPageConfig.portalUrl = arcgisPortalList[0].portalUrl; // Set first item as default
-
-        // https://portal.myorg.com:7443/arcgis/home     (Direct URL)
-        // https://maps.myorg.com/portal/home            (Web Adaptor URL)
-        /*
-        arcgisPortalLandingPageConfig.portalUrl = 
-            window.location.origin +  "/" +             // https://portal.myorg.org:7443  |  https://maps.myorg.com
-            window.location.pathname.split("/")[1];     // /arcgis/home                   |  /portal/home 
-        */
-    }
-    console.log("Default ArcGIS Portal url is set: ", arcgisPortalLandingPageConfig.portalUrl)
-}
-
-if (!arcgisPortalLandingPageConfig.group) {
-    let portalUrl = arcgisPortalLandingPageConfig.portalUrl; //.toLowerCase();
-    for (const portal of arcgisPortalList) {
-        if (portalUrl.indexOf(portal.portalUrl) === 0) {
-            arcgisPortalLandingPageConfig.group = portal.group;
-        }        
-    }
-    if (arcgisPortalLandingPageConfig.group) {
-        console.log("Default ArcGIS Portal group is set: " + arcgisPortalLandingPageConfig.group);
-    }
-    else {
-        console.error("Unable to load group items: ArcGIS Portal group is not set.");
-    }
-}
+import * as agp from "./agp.js";
 
 
-
-interface RestApiJson {
-    error: {
-        message: string;
-        details: string;
-    }
-}
-
-
-/** https://developers.arcgis.com/rest/users-groups-and-items/portal-self.htm */
-interface PortalJson extends RestApiJson {
-
-    /** The organization's name, eg. 'MyOrg GIS Portal*/
-    name: string; 
-
-    /** The portal's name: "ArcGIS Online" | "ArcGIS Enterprise" */
-    portalName: string; 
-
-    /** The URL to the thumbnail of the portal. */
-    portalThumbnail: string;
-
-    /** The URL to the thumbnail of the organization. */
-    thumbnail: string;
-
-    currentVersion: number;
-
-
-    portalUrl: string;
-    thumbnailUrl: string;
-}
-
-
-
-interface GroupJson extends RestApiJson {
-    title: string;
-    description: string;
-    snippet: string;
-    thumbnail: string;
-    id: string;
-
-    sortField: string;
-    sortOrder: string;
-
-    groupUrl: string;
-    thumbnailUrl: string;
-}
-
-
-
-interface GroupSearchJson extends RestApiJson {
-    start: number;
-    num: number;
-    nextStart: number;
-    total: number;
-    query: string;
-    results: ItemJson[];
-}
-
-
-
-/** https://developers.arcgis.com/rest/users-groups-and-items/items-and-item-types.htm */
-type ItemType = 
-        // Maps
-          "Web Map" 
-        | "CityEngine Web Scene"
-        | "Web Scene"
-        | "360 VR Experience"
-        | "Pro Map"
-        | "Map Area"
-        // Layers
-        | "Feature Service"
-        | "Map Service"
-        | "Image Service"
-        | "KML"
-        | "KML Collection"
-        | "WMS"
-        | "WFS"
-        | "WMTS"
-        | "Feature Collection"
-        | "Feature Collection Template"
-        | "Geodata Service"
-        | "Globe Service"
-        | "Vector Tile Service"
-        | "Scene Service"
-        | "Relational Database Connection"
-        | "Oriented Imagery Catalog"
-        // Tools
-        | "Geometry Service"
-        | "Geocoding Service"
-        | "Network Analysis Service"
-        | "Geoprocessing Service"
-        | "Workflow Manager Service";
-        // Applications (TODO)
-        // Data files (TODO)
-        // Desktop content (TODO)
-
-
-interface ItemJson {
-    id: string;
-    title: string; // World Reference Overlay
-    name: string; // World_Reference_Overlay
-    snippet: string;
-    description: string;
+interface ItemAction {
     url: string;
-    owner: string;
-    created: number;
-    modified: number;
-    type: ItemType;
-    typeKeywords: string[];
-    tags: string[];
-
-    thumbnail: string;
-    extent: any;
-    spatialReference: any;
-    accessInformation: string; //<credits>,
-    licenseInfo: string; // "<access and use constraints>"
-    culture: string; //"<culture code>",
-    access: "private | shared | org | public";
-    size: number;
-    numComments: number;
-    numRatings: number;
-    avgRating: number;
-    numViews: number;
-    scoreCompleteness: number;
-    groupCategories: string[];
-      
-    itemUrl: string;
-    thumbnailUrl: string;
-}
-
-interface ItemsJson {
-    items: ItemJson[];
+    iconSvg: string;
+    isItemInfo?: boolean;
 }
 
 let isDebugDebugMode = window.location.href.indexOf("/localhost") > 0;
@@ -237,65 +50,81 @@ class AppIcons {
     public static listRich(size?: number) {
         return AppIcons.iconicIcon(`<path d="M0 0v3h3v-3h-3zm4 0v1h4v-1h-4zm0 2v1h3v-1h-3zm-4 2v3h3v-3h-3zm4 0v1h4v-1h-4zm0 2v1h3v-1h-3z" />`, size); 
     }
-}
 
-
-
-
-function fetchRestApiJson(apiUrl: string): Promise<any> {
-    //url = url + "?f=json";
-    let portalUrl = arcgisPortalLandingPageConfig.portalUrl;
-    if (portalUrl.lastIndexOf("/") != portalUrl.length -1){
-        portalUrl = portalUrl + "/";
+    public static itemAction(action: agp.ItemActionType) {
+        if (action == "info") {
+            return this.info();
+        }
+        if (action == "download") {
+            return this.download();
+        }
+        if (action == "external") {
+            return this.externalLink();
+        }
+        return this.externalLink();
     }
-
-    let url = portalUrl + "sharing/rest/" + apiUrl;
-    return fetch(url)
-    .then((resp) => {
-        //console.log("fetch success", resp);
-        if (!resp.ok) {
-            console.warn("Fetching ERROR: " + url);
-            console.warn("HTTP response error", resp);
-            throw new Error('HTTP error, status = ' + resp.status);
-        }
-        return resp.json();
-    })
-    .then((json: RestApiJson) => {
-        if (json.error) {
-            console.warn("Fetching ArcGIS Portal Rest API response errror: " + json.error.message);
-            console.warn(url);
-            throw new Error("Fetching ArcGIS Portal Rest API response errror: " + json.error.message);
-        }
-        return json;
-    })        
-    .catch((reason) => {
-        console.warn("fetch error", reason);
-        throw reason;
-    });
+    
+    // https://github.com/danklammer/bytesize-icons
 }
 
 
-class AppView {
+
+
+export class AppView {
 
     private navbarTitleContainer = document.getElementById("navbarTitleContainer") as HTMLAnchorElement;    
     private searchBoxElement = document.getElementById("searchBoxElement");
     private searchButtonElement = document.getElementById("searchButtonElement");
 
-    private groupHeadingContainer = document.getElementById("groupHeadingContainer") ;
+    private groupInfoContainer = document.getElementById("groupInfoContainer") ;
     private groupItemsContainer = document.getElementById("groupItemsContainer");
     private loadMoreItemsButton = document.getElementById("loadMoreItemsButton") as HTMLButtonElement;
     private loadMoreItemsProgress = document.getElementById("loadMoreItemsProgress");
 
-    private portalDeltailsContainer = document.getElementById("portalDeltailsContainer");
-    private groupDetailsContainer = document.getElementById("groupDetailsContainer");
+    private portalDeltailsFooter = document.getElementById("portalDeltailsFooter");
+    private groupDetailsFooter = document.getElementById("groupDetailsFooter");
 
     private splashScreenModal = document.getElementById("splashScreenModal");
     private splashScreenBackdrop = document.getElementById("splashScreenBackdrop");
+    private portal: agp.Portal;
+    private group: agp.GroupJson;
+    
 
 
-    constructor(public portalUrl: string) {       
+    constructor(portalUrl: string, groupId: string) {  
+        this.portal = new agp.Portal(portalUrl, groupId);
+        if (!this.portal.groupId) {
+            this.showError("Unable to load group items: ArcGIS Portal group is not set.");
+        }
+
         this.loadMoreItemsButton.addEventListener("click", ()=> {
             this.appendMoreItems();
+        });
+    }
+
+    public loadAppData(): Promise<any> {
+        if (isDebugDebugMode) {
+            console.log("Loading ArcGIS Portal data", this.portal.portalUrl, this.portal.groupId);
+        }
+
+        return Promise.all([
+            this.portal.fetchPortal().then((portal: agp.PortalJson) => {
+                this.setPortalData(portal);
+            }), 
+            this.portal.fetchGroup().then((group: agp.GroupJson)=> {
+                this.setGroupData(group);
+                return this.portal.fetchGroupItems(group).then((items: agp.GroupSearchJson)=> {
+                    this.appendItems(items);
+                });  
+            }),
+        ])
+        .then(()=> {
+            this.hideSplashScreen();
+        })
+        .catch((reason) => {
+            console.warn("App loading error: ", reason);
+            this.showError(reason);
+            return reason;
         });
     }
 
@@ -326,7 +155,7 @@ class AppView {
     }
 
     private supportedPortalVersion = 5.3;
-    public setPortalData(portal: PortalJson) {
+    public setPortalData(portal: agp.PortalJson) {
         if (isDebugDebugMode) {
             console.log("portal: ", portal);
         }
@@ -337,19 +166,20 @@ class AppView {
             console.log("ArcGIS Portal version: ", portal.currentVersion);            
         }
         let portalName = portal.name || portal.portalName;
-        this.setFooterContainerAnchor(this.portalDeltailsContainer, portalName, portal.portalUrl, portal.thumbnailUrl, AppIcons.home());
+        this.setFooterContainerAnchor(this.portalDeltailsFooter, portalName, portal.portalUrl, portal.thumbnailUrl, AppIcons.home());
     }
 
-    public setGroupData(group: GroupJson) {
+    public setGroupData(group: agp.GroupJson) {
         if (isDebugDebugMode) {
             console.log("group: ", group);
         }
 
+        this.group = group;
         document.title = group.title;
 
         this.navbarTitleContainer.innerHTML = "";
         this.navbarTitleContainer.href = window.location.href;
-        if (group.thumbnail) {
+        if (group.thumbnailUrl) {
             this.navbarTitleContainer.innerHTML = this.navbarTitleContainer.innerHTML + `
             <img src="` + group.thumbnailUrl + `" width="30" height="30" class="d-inline-block align-top" alt="">&nbsp;`;
 
@@ -361,22 +191,32 @@ class AppView {
         }
         this.navbarTitleContainer.innerHTML = this.navbarTitleContainer.innerHTML + group.title;
 
-        this.groupHeadingContainer.innerHTML = `<h1 class="display-4 text-center">` + group.title + `</h1>`
+        this.groupInfoContainer.innerHTML = `<h1 class="display-4 text-center">` + group.title + `</h1>`
         if (group.snippet) {
-            this.groupHeadingContainer.innerHTML = this.groupHeadingContainer.innerHTML + `
+            this.groupInfoContainer.innerHTML = this.groupInfoContainer.innerHTML + `
             <p class="lead text-center">` + group.snippet + `</p>`;
         }
         if (group.description) {
-            this.groupHeadingContainer.innerHTML = this.groupHeadingContainer.innerHTML + `
+            this.groupInfoContainer.innerHTML = this.groupInfoContainer.innerHTML + `
             <p class="text-justify">` + group.description + `</p>`;
         }        
+        this.makeImagesResponsive(this.groupInfoContainer);
 
-        this.setFooterContainerAnchor(this.groupDetailsContainer, group.title, group.groupUrl, group.thumbnailUrl, AppIcons.list());
+        this.setFooterContainerAnchor(this.groupDetailsFooter, group.title, group.groupUrl, group.thumbnailUrl, AppIcons.list());
     }
 
-    private lastSearchResult: GroupSearchJson;
+    /** Make images responsive (not to extend page width) */
+    private makeImagesResponsive(container: HTMLElement) {
+        let images = container.getElementsByTagName("img");
+        for (let i = 0; i < images.length; ++i) {
+            let img = images[i];
+            img.classList.add("img-fluid")
+         }
+    }
 
-    public appendItems(searchResult: GroupSearchJson) {
+    private lastSearchResult: agp.GroupSearchJson;
+
+    public appendItems(searchResult: agp.GroupSearchJson) {
         if (isDebugDebugMode) {
             console.log("items: ", searchResult);
         }
@@ -398,22 +238,13 @@ class AppView {
         this.loadMoreItemsButton.title = (searchResult.nextStart - 1) + "/" + searchResult.total;
     }
 
-    private appendItemData(item: ItemJson) {
-        let itemInfoUrl = this.portalUrl + "home/item.html?id=" + item.id;
-        let itemUrl = item.url;
-        let itemData = this.portalUrl + "sharing/rest/content/items/" + item.id + "/data";
-
+    private appendItemData(item: agp.ItemJson) {
         let itemCard = this.appendDiv(this.groupItemsContainer, "card mb-4 shadow");
         let itemRow = this.appendDiv(itemCard, "row  no-gutters");
 
-        let itemImgAnchor = this.appendAnchor(itemRow, "col-sm-4", "", itemUrl || itemData);
+        let itemImgAnchor = this.appendAnchor(itemRow, "col-sm-4", "", item.actionUrl);
         let itemImg = this.appendImg(itemImgAnchor);  
-        if (item.thumbnail) {
-            itemImg.src = this.portalUrl + "sharing/rest/content/items/" + item.id + "/info/" + item.thumbnail;            
-        }
-        else {
-            itemImg.src = "img/item.png";
-        }
+        itemImg.src = item.thumbnailUrl || "img/item.png";            
         itemImg.alt = item.type;
 
         if (item.snippet && ! item.description) {
@@ -423,7 +254,7 @@ class AppView {
         }
 
         let itemBody = this.appendDiv(itemRow, "col-sm-8 card-body d-flex flex-column");
-        let itemTitleAnchor = this.appendAnchor(itemBody, null, null, itemUrl || itemData);
+        let itemTitleAnchor = this.appendAnchor(itemBody, null, null, item.actionUrl);
         this.appendElement(itemTitleAnchor, "h5", "card-title", item.title).title = item.title;
         if (item.snippet) {
             this.appendElement(itemBody, "h6", "card-subtitle mb-2 text-muted", item.snippet).title = item.snippet;
@@ -432,25 +263,19 @@ class AppView {
             this.appendElement(itemBody, "p", "card-text", item.description);
         }
         let itemLinks = this.appendDiv(itemBody, "mt-auto");
-        this.appendAnchor(itemLinks, "card-link", AppIcons.info(), itemInfoUrl);
-        if (itemUrl) {
-            this.appendAnchor(itemLinks, "card-link", AppIcons.externalLink(), itemUrl);
+        if (item.actionType != "info" ) {
+            this.appendAnchor(itemLinks, "card-link", AppIcons.info(), item.infoUrl);
         }
-        else {
-            this.appendAnchor(itemLinks, "card-link", AppIcons.download(), itemData);
-        }
-        //urlLink.title = item.type;
-        //urlLink.rel = item.type;
-    }    
+        this.appendAnchor(itemLinks, "card-link", AppIcons.itemAction(item.actionType), item.actionUrl);
+    } 
 
     private appendMoreItems() {      
-        let groupId = arcgisPortalLandingPageConfig.group;
         this.loadMoreItemsButton.style.display = "none";
         this.loadMoreItemsProgress.style.display = "";
 
         // group %3A bec4867931504e4897aa927629c5e03f
-        return fetchRestApiJson("search?f=json&q=group%3A" + groupId + "&num=16&start=" + this.lastSearchResult.nextStart)
-        .then((items: GroupSearchJson)=> {
+        return this.portal.fetchGroupItems(this.group, this.lastSearchResult.nextStart)
+        .then((items: agp.GroupSearchJson)=> {
             this.appendItems(items);
         })
         .catch((reason)=> {
@@ -458,7 +283,7 @@ class AppView {
             this.loadMoreItemsProgress.style.display = "";
             this.loadMoreItemsProgress.style.width = "";
             this.loadMoreItemsProgress.className = "alert alert-danger";
-            this.loadMoreItemsProgress.innerHTML = "Failed to load Group items " + this.portalUrl + "home/group.html?id=" + groupId;
+            this.loadMoreItemsProgress.innerHTML = "Failed to load Group items " + this.portal.portalUrl + "home/group.html?id=" + this.group.id;
             console.warn(this.loadMoreItemsButton.innerHTML);
             console.warn(reason);
         });
@@ -492,94 +317,4 @@ class AppView {
 }
 
 
-
-class AppController {
-
-    public view: AppView;
-    public portal: PortalJson;
-    public group: GroupJson;
-    public items: ItemsJson;
-
-    constructor(public portalUrl: string, public groupId: string) {
-        if (portalUrl.lastIndexOf("/") != portalUrl.length -1){
-            this.portalUrl = portalUrl + "/";
-        }
-    }
-
-    public loadAppData(): Promise<any> {
-        this.view = new AppView(this.portalUrl);
-        return Promise.all([
-            this.loadPortalData(), 
-            this.loadGroupData().then(group=>this.loadItemsData(group)) ]
-        )
-        .then(()=> {
-            this.view.hideSplashScreen();
-        })
-        .catch((reason) => {
-            console.warn("App loading error: ", reason);
-            this.view.showError(reason);
-            return reason;
-        });
-    }
-
-    private rootUrl(apiUrl: string): string {
-        return this.portalUrl + "sharing/rest/" + apiUrl;
-    }
-
-    private loadPortalData(): Promise<any> {
-        return fetchRestApiJson("portals/self?f=json")
-            .then((portal: PortalJson) => {
-                if (portal.thumbnail) {
-                    portal.thumbnailUrl = this.portalUrl + "sharing/rest/portals/self/resources/" + portal.thumbnail; //thumbnail.png
-                }
-                else if (portal.portalThumbnail) {
-                    portal.thumbnailUrl = this.portalUrl + "sharing/rest/portals/self/resources/" + portal.portalThumbnail; //thumbnail.png
-                }
-                portal.portalUrl = this.portalUrl;
-                this.view.setPortalData(portal);
-                return portal;
-            })
-            .catch((reason)=> {
-                throw new Error("Failed to load Portal info " + this.portalUrl);
-            });
-    }
-
-    private loadGroupData(): Promise<any> {        
-        return fetchRestApiJson("community/groups/" + this.groupId + "?f=json")
-            .then((group: GroupJson)=> {
-                // https://www.arcgis.com/sharing/rest/community/groups/a9dd8d5f05b5479f8c4875de746d4cda/info/Esri_Logo_13.jpg?token=
-                if (group.thumbnail) {
-                    group.thumbnailUrl = this.rootUrl("community/groups/" + this.groupId + "/info/" + group.thumbnail);
-                }
-                group.groupUrl = this.portalUrl + "home/group.html?id=" + this.groupId;
-                this.view.setGroupData(group);
-                return group;
-            })
-            .catch((reason)=> {
-                throw new Error("Failed to load Group info " + this.portalUrl + "home/group.html?id=" + this.groupId);
-            });
-    }
-
-    private loadItemsData(group: GroupJson): Promise<any> {        
-        // /content/items/<itemId>
-        let start = 1;
-        return fetchRestApiJson("search?f=json&q=group%3A" + this.groupId 
-            + "&num=16&start=" + "1" 
-            + "&sortField=" + group.sortField + "&sortOrder=" + group.sortOrder)
-        .then((items: GroupSearchJson)=> {
-            this.view.appendItems(items);
-        })
-        .catch((reason)=> {
-            throw new Error("Failed to load Group items " + this.portalUrl + "home/group.html?id=" + this.groupId);
-        });
-    }
-
-}
-
-
-if (isDebugDebugMode) {
-    console.log("Loading ArcGIS Portal data", arcgisPortalLandingPageConfig);
-}
-let app = new AppController(arcgisPortalLandingPageConfig.portalUrl, arcgisPortalLandingPageConfig.group);
-app.loadAppData();
 

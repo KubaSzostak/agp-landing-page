@@ -1,10 +1,10 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "module": "none",
+        "module": "es2015",
         "target": "es2015",
         "lib":["es2017", "dom"],
-        "outDir": "js/1.0.190220",
+        "outDir": "js/1.0.190914",
         "noImplicitAny": false,
         "sourceMap": true,
         "removeComments": true,

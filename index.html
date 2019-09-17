@@ -4,8 +4,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
+  <meta name="description" content="ArcGIS Portal landing page">
   <meta name="author" content="Kuba Szostak">
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
   <title>ArcGIS Portal Landing Page</title>
 
   <!-- Bootstrap core CSS -->
@@ -152,8 +157,8 @@
     </div>
   </nav>
 
-  <!--  Group Heading  -->
-  <div id="groupHeadingContainer" class="container px-3 py-3 pt-md-5 pb-md-4 mx-auto">
+  <!--  Group Info  -->
+  <div id="groupInfoContainer" class="container px-3 py-3 pt-md-5 pb-md-4 mx-auto">
     <h1 class="display-4 text-center app-element-display">ArcGIS Portal Landing Page</h1>
     <p class="lead text-center app-element-display">Lorem ipsum dolor sit amet consectetuer adipiscing elit.</p>
     <p class=" app-element-display">
@@ -261,11 +266,11 @@
 
     <footer class="pt-3 border-top">
       <div class="row">
-        <div id="portalDeltailsContainer" class="col-md pb-3">
+        <div id="portalDeltailsFooter" class="col-md pb-3">
           <!-- <img src="img/map.png" width="24" height="24" class="align-top mr-2 mb-2 app-element-visibility">
           <a href="#" class="app-element-visibility">My Portal</a>-->
         </div>
-        <div id="groupDetailsContainer" class="col-md pb-3">
+        <div id="groupDetailsFooter" class="col-md pb-3">
           <!-- <img src="img/egb.png" width="24" height="24" class="align-top mr-2 mb-2 rounded-circle  app-element-visibility"
             alt="">
           <a href="#" class="app-element-visibility">ArcGIS Portal Landing Page</a>-->
@@ -285,9 +290,29 @@
 
 
 
-  <!-- https://github.com/danklammer/bytesize-icons -->
+  <script>
+    var agpLandingPageConfig = {
+      portalUrl: "", // "https://mapy.umgdy.gov.pl/portal",  // "https://www.arcgis.com",            
+      group: ""      // "9227744bd89342429da120fb3bba224a"   // "1d1f24e8556642f49448f1c88b5a571b" 
+    };
+    
+    var script = document.createElement("script");
+    if (!window.fetch || !("noModule" in script)) {      
+      var splashScreenModal = document.getElementById("splashScreenModal");
+      splashScreenModal.classList.add("text-danger");
+      splashScreenModal.getElementsByClassName("modal-header").item(0).style.display = "";        
+      splashScreenModal.getElementsByClassName("modal-title").item(0).innerHTML = "Error";
+      splashScreenModal.getElementsByClassName("modal-body").item(0).innerHTML = 'Your browser is not supported. Upgrade your browser or use one of <a  class="text-danger" href="https://choosebrowser.com"><u>modern browsers</u></a>.';
+    }
+  </script>
   <script src="config.js"></script>
-  <script src="js/1.0.190220/app.js"></script>
+  
+  <script type="module">
+    import {AppView} from './js/1.0.190914/app.js';  
+    let app = new AppView(agpLandingPageConfig.portalUrl, agpLandingPageConfig.group);
+    app.loadAppData();
+  </script>
+
 </body>
 
 </html>
