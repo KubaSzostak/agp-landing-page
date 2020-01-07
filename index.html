@@ -291,11 +291,10 @@
 
 
   <script>
-    // this is set in config.js
-    //var agpLandingPageConfig = {
-    //  portalUrl: "", // "https://mapy.umgdy.gov.pl/portal",  // "https://www.arcgis.com",            
-    //  group: ""      // "9227744bd89342429da120fb3bba224a"   // "1d1f24e8556642f49448f1c88b5a571b" 
-    //};
+    var agpLandingPageConfig = {
+      portalUrl: "", // "https://mapy.umgdy.gov.pl/portal",  // "https://www.arcgis.com",            
+      group: ""      // "9227744bd89342429da120fb3bba224a"   // "1d1f24e8556642f49448f1c88b5a571b" 
+    };
     
     var script = document.createElement("script");
     if (!window.fetch || !("noModule" in script)) {      
@@ -306,7 +305,6 @@
       splashScreenModal.getElementsByClassName("modal-body").item(0).innerHTML = 'Your browser is not supported. Upgrade your browser or use one of <a  class="text-danger" href="https://choosebrowser.com"><u>modern browsers</u></a>.';
     }
   </script>
-  <script src="config.js"></script>
   
   <script type="module">
     import {AppView} from './js/1.0.190914/app.js';  
