@@ -35,8 +35,9 @@ export class Portal {
             return groupId;
         }
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get("group")) {
-            return urlParams.get("group");
+        let urlGroupId = urlParams.get("group") || urlParams.get("groupId");
+        if (urlGroupId) {
+            return urlGroupId;
         }
         for (const portal of suggestedPortalList) {
             if (this.portalUrl.indexOf(portal.portalUrl) === 0) {
@@ -123,6 +124,9 @@ export class Portal {
         if (item.thumbnail) {
             item.thumbnailUrl = this.portalUrl + "sharing/rest/content/items/" + item.id + "/info/" + item.thumbnail + "?w=800";
         }
+        console.log(item.name);
+        console.log(item.title);
+        console.log(item.type);
         item.actionType = "external";
         item.infoUrl = this.portalUrl + "home/item.html?id=" + item.id;
         if (item.type == "Web Map") {
@@ -130,6 +134,8 @@ export class Portal {
         }
         else if ((item.type == "Dashboard")) {
             item.actionUrl = this.portalUrl + "apps/opsdashboard/index.html#/" + item.id;
+        }
+        else if (item.type == "Code Attachment") {
         }
         else if (item.url && (itemDataFormats.url.indexOf(item.type) > -1)) {
             item.actionUrl = item.url;
