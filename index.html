@@ -291,11 +291,7 @@
 
 
   <script>
-    var agpLandingPageConfig = {
-      portalUrl: "", // "https://mapy.umgdy.gov.pl/portal",  // "https://www.arcgis.com",            
-      group: ""      // "9227744bd89342429da120fb3bba224a"   // "1d1f24e8556642f49448f1c88b5a571b" 
-    };
-    
+    // Check browser support
     var script = document.createElement("script");
     if (!window.fetch || !("noModule" in script)) {      
       var splashScreenModal = document.getElementById("splashScreenModal");
@@ -306,9 +302,14 @@
     }
   </script>
   
-  <script type="module">
-    import {AppView} from './js/1.0.190914/app.js';  
-    let app = new AppView(agpLandingPageConfig.portalUrl, agpLandingPageConfig.group);
+  <script type="module">        
+    // ArcGIS Portal config
+    const portalUrl = ""; // "https://mapy.umgdy.gov.pl/portal",  // "https://www.arcgis.com",            
+    const group = "";     // "9227744bd89342429da120fb3bba224a"   // "1d1f24e8556642f49448f1c88b5a571b" 
+
+    // Start application
+    import {AppView} from './js/1.0.200118/app.js';  
+    let app = new AppView(portalUrl, group);
     app.loadAppData();
   </script>
 
