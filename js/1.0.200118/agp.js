@@ -15,12 +15,12 @@ export class Portal {
         this.groupId = this.suggestGroupId(groupId);
     }
     suggestPortalUrl(portalUrl) {
-        if (portalUrl && portalUrl.length > 0) {
-            return portalUrl;
-        }
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get("portalUrl")) {
             return urlParams.get("portalUrl");
+        }
+        if (portalUrl && portalUrl.length > 0) {
+            return portalUrl;
         }
         for (const portal of suggestedPortalList) {
             if (window.location.href.indexOf(portal.portalUrl) === 0) {
@@ -31,12 +31,13 @@ export class Portal {
         return suggestedPortalList[0].portalUrl;
     }
     suggestGroupId(groupId) {
+        const urlParams = new URLSearchParams(window.location.search);
+        let urlGroupId = urlParams.get("group") || urlParams.get("groupId");
+        if (urlGroupId) {
+            return urlGroupId;
+        }
         if (groupId && groupId.length > 0) {
             return groupId;
-        }
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get("group")) {
-            return urlParams.get("group");
         }
         for (const portal of suggestedPortalList) {
             if (this.portalUrl.indexOf(portal.portalUrl) === 0) {
@@ -121,18 +122,22 @@ export class Portal {
     }
     initItemData(item) {
         if (item.thumbnail) {
-            item.thumbnailUrl = this.portalUrl + "sharing/rest/content/items/" + item.id + "/info/" + item.thumbnail;
+            item.thumbnailUrl = this.portalUrl + "sharing/rest/content/items/" + item.id + "/info/" + item.thumbnail + "?w=800";
         }
         item.actionType = "external";
         item.infoUrl = this.portalUrl + "home/item.html?id=" + item.id;
         if (item.type == "Web Map") {
             item.actionUrl = this.portalUrl + "home/webmap/viewer.html?webmap=" + item.id;
         }
-        else if ((item.type == "Web Mapping Application") && (item.url)) {
-            item.actionUrl = item.url;
-        }
         else if ((item.type == "Dashboard")) {
             item.actionUrl = this.portalUrl + "apps/opsdashboard/index.html#/" + item.id;
+        }
+        else if (item.url && (itemDataFormats.url.indexOf(item.type) > -1)) {
+            item.actionUrl = item.url;
+        }
+        else if (itemDataFormats.file.indexOf(item.type) > -1) {
+            item.actionUrl = this.portalUrl + "sharing/rest/content/items/" + item.id + "/data";
+            item.actionType = "download";
         }
         else {
             item.actionUrl = item.infoUrl;
@@ -141,4 +146,35 @@ export class Portal {
         }
     }
 }
+let itemDataFormats = {
+    textJson: [
+        "Web Map", "Web Scene", "360 VR Experience", "Map Area", "Feature Service",
+        "Map Service", "Image Service", "WFS", "WMTS", "Feature Collection", "Feature Collection Template",
+        "Vector Tile Service", "Scene Service", "Relational Database Connection", "Oriented Imagery Catalog",
+        "Mobile Application", "Workforce Project", "Insights Workbook", "Insights Model",
+        "Insights Page", "Insights Theme", "Dashboard", "Hub Initiative", "Hub Site Application", "Hub Page",
+        "Ortho Mapping Project", "Ortho Mapping Template", "Solution", "Excalibur Imagery Project", "StoryMap",
+        "Web Experience", "Symbol Set", "Color Set", "Content Category Set"
+    ],
+    file: [
+        "CityEngine Web Scene", "Pro Map", "KML", "KML Collection", "Code Attachment",
+        "Operations Dashboard Add In", "Native Application", "Native Application Template", "Native Application Installer",
+        "Form", "AppBuilder Widget Package", "Shapefile", "File Geodatabase", "CSV", "CAD Drawing", "Service Definition",
+        "Microsoft Word", "Microsoft Powerpoint", "Microsoft Excel", "PDF", "Image", "Visio Document",
+        "iWork Keynote", "iWork Pages", "iWork Numbers", "Report Template", "Statistical Data Collection",
+        "SQLite Geodatabase", "GeoPackage", "Map Document", "Map Package", "Mobile Basemap Package", "Mobile Map Package",
+        "Tile Package", "Compact Tile Package", "Vector Tile Package", "Project Package", "Task File", "Published Map",
+        "Map Template", "Windows Mobile Package", "Pro Map", "Layout", "Project Template", "Mobile Scene Package",
+        "Layer", "Layer Package", "Explorer Layer", "Scene Package", "Image Collection", "Pro Report",
+        "Desktop Style", "Geoprocessing Package", "Geoprocessing Package (Pro version)", "Geoprocessing Sample",
+        "Locator Package", "Rule Package", "Raster function template", "ArcGIS Pro Configuration", "Deep Learning Package",
+        "Workflow Manager Package", "Desktop Application", "Desktop Application Template", "Code Sample",
+        "Desktop Add In", "Explorer Add In", "ArcGIS Pro Add In", "Operation View"
+    ],
+    url: [
+        "Web Mapping Application", "WMS", "Geodata Service", "Globe Service", "Geometry Service", "Geocoding Service",
+        "Network Analysis Service", "Geoprocessing Service", "Workflow Manager Service", "Operations Dashboard Extension",
+        "AppBuilder Extension", "Document Link"
+    ]
+};
 //# sourceMappingURL=agp.js.map
