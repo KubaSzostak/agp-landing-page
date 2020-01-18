@@ -129,14 +129,14 @@ export class Portal {
     }
 
     private suggestPortalUrl(portalUrl?: string): string {
-        if (portalUrl && portalUrl.length > 0) {
-            return portalUrl;
-        }
-    
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get("portalUrl")) {
             return urlParams.get("portalUrl");
-        }                  
+        }   
+
+        if (portalUrl && portalUrl.length > 0) {
+            return portalUrl;
+        }               
         
         for (const portal of suggestedPortalList) {
             if (window.location.href.indexOf(portal.portalUrl) === 0) {
@@ -156,15 +156,15 @@ export class Portal {
     }
 
     private suggestGroupId(groupId: string) {
-        if (groupId && groupId.length > 0) {
-            return groupId;
-        }
-
         const urlParams = new URLSearchParams(window.location.search);
         let urlGroupId = urlParams.get("group") || urlParams.get("groupId");
         if (urlGroupId) {
             return urlGroupId;
-        }        
+        }   
+
+        if (groupId && groupId.length > 0) {
+            return groupId;
+        }     
 
         for (const portal of suggestedPortalList) {
             if (this.portalUrl.indexOf(portal.portalUrl) === 0) {
